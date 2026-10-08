@@ -1,110 +1,141 @@
-# 🩸 The Blood Response System — Frontend (Mobile App)
+# 🩸 Blood Response System
 
-> Emergency Blood Donation Mobile App for **Alkhidmat Foundation Pakistan** built with React Native, Expo, Expo Router, and TypeScript.
+An emergency blood donation coordination platform designed to help blood seekers connect with potential donors faster. Developed as part of the Alkhidmat Foundation Pakistan — Summer Social Internship Program (SSIP) 2026.
 
-Designed for high reliability, calm and trustworthy medical aesthetics, bilingual Urdu/English support with RTL, 1-tap Emergency SOS, and verified donor coordination.
+## 🎯 Project Overview
 
+Finding available blood donors during an emergency can be difficult and time-consuming. The Blood Response System aims to simplify donor discovery and emergency blood requests through a mobile-first application.
 
-# Blood Response System App — Alkhidmat Foundation Pakistan
+## ✨ Key Features
 
-## Tech Stack
-* **Backend:** FastAPI + MongoDB (`motor`/`AsyncIOMotorClient`)
-* **Frontend:** React Native + Expo + TypeScript + Expo Router
-* **Authentication:** JWT (Access + Refresh Tokens)
-* **Database:** MongoDB Atlas (Primary)
-* **Email OTP:** Gmail SMTP via `smtplib`
+* 🩸 Donor and requester registration
+* 🚨 Emergency blood request interface
+* 📍 Nearby donor discovery and location-based matching
+* 🏥 Hospital/request verification workflow
+* ⏱️ Donor cooldown tracking
+* 🌐 Urdu and English language support with RTL layout
+* 🔐 JWT-based authentication
+* 👤 Donor profiles and availability
+* 📱 Mobile-first interface built with Expo
 
-## Environment Setup & Installation
+*Note: Feature availability and backend integration may vary in this prototype. See Known Limitations below.*
 
-### Backend Setup
+## 🛠️ Tech Stack
+
+| Component         | Technology                                              |
+| ----------------- | ------------------------------------------------------- |
+| Mobile frontend   | React Native, Expo                                      |
+| Language          | TypeScript                                              |
+| Navigation        | Expo Router                                             |
+| Backend API       | Python, FastAPI                                         |
+| Database          | MongoDB and SQLAlchemy-backed local database components |
+| Authentication    | JWT                                                     |
+| API communication | Axios                                                   |
+| State management  | Zustand                                                 |
+
+## 📁 Project Structure
+
+```text
+blood-response-system/
+├── blood-response-frontend/
+│   ├── app/
+│   ├── components/
+│   ├── constants/
+│   ├── services/
+│   └── store/
+├── blood-response-backend/
+├── .gitignore
+└── README.md
+```
+
+## 🚀 Getting Started
+
+### Prerequisites
+
+* Python 3.11 or another version supported by the backend dependencies
+* Node.js 18+
+* npm
+* Expo Go for mobile testing
+
+### 1. Clone the repository
+
 ```bash
+git clone https://github.com/Ashvin-lohana/blood-response-system.git
+cd blood-response-system
+```
+
+### 2. Start the backend
+
+```powershell
 cd blood-response-backend
 python -m venv venv
-venv\Scripts\Activate.ps1   # Windows
+.\venv\Scripts\Activate.ps1
 pip install -r requirements.txt
-uvicorn app.main:app --reload --host 0.0.0.0 --port 8000
+```
 
----
+Configure the backend environment variables using the provided `.env.example` as a template. Never put real passwords, API keys, or database credentials in GitHub.
 
-## ⚡ Quick Start (< 5 Minutes)
+Start the API:
 
-### 1. Prerequisites
-- Node.js 18+
-- npm or yarn
-- **Expo Go** mobile app (iOS App Store / Google Play Store) or an Android / iOS simulator.
-
-### 2. Install Dependencies
 ```bash
-# Navigate to frontend folder
-cd blood-response-frontend
+uvicorn app.main:app --reload --host 0.0.0.0 --port 8000
+```
 
-# Install dependencies
+Open the interactive API documentation at:
+
+`http://localhost:8000/docs`
+
+### 3. Start the mobile frontend
+
+Open a second terminal from the repository root:
+
+```bash
+cd blood-response-frontend
 npm install
 ```
 
-### 3. Configure API Connection
-Copy `.env.example` to `.env`:
-```bash
-cp .env.example .env
-```
-- **Web / iOS Simulator**: `EXPO_PUBLIC_API_URL=http://localhost:8000/api/v1`
-- **Android Emulator**: `EXPO_PUBLIC_API_URL=http://10.0.2.2:8000/api/v1`
-- **Physical Phone with Expo Go (Same Wi-Fi)**: `EXPO_PUBLIC_API_URL=http://<YOUR_LOCAL_IP>:8000/api/v1`
+Configure the frontend `.env` file using `.env.example`.
 
-### 4. Start Expo Development Server
+Set the API URL according to your environment:
+
+* Web or iOS simulator: `http://localhost:8000/api/v1`
+* Android emulator: `http://10.0.2.2:8000/api/v1`
+* Physical phone: use your computer's local IP address and ensure both devices are on the same Wi-Fi network.
+
+Start Expo:
+
 ```bash
 npx expo start
 ```
-- Scan the displayed QR code using the **Expo Go** app on your mobile device.
-- Or press `w` to open in your desktop web browser.
 
----
+Scan the QR code using Expo Go.
 
-## 📱 Pre-Configured Test Accounts
+## 🔐 Security and Privacy
 
-On the Login screen, tap any of the test buttons for instant 1-tap login:
+* Keep `.env` files and credentials out of version control.
+* Use environment variables for secrets.
+* Do not publish real patient information or sensitive donor data.
+* Use dummy data when demonstrating the prototype.
 
-| Role | Credentials | Focus / Test Flow |
-| :--- | :--- | :--- |
-| **Donor (O- Karachi)** | `+923001234001` / `Donor@123` | Universal donor view, urgent matching requests, cooldown status |
-| **Requester** | `+923331112233` / `Requester@123` | View posted requests, track confirmed blood units, post new requests |
-| **Admin** | `+923000000000` / `Admin@123` | Moderate flagged community reports, platform statistics |
+## ⚠️ Known Limitations
 
----
+* Some backend flows use different database components and require further integration testing.
+* External notification integrations, such as WhatsApp, SMS, and push notifications, require implementation and verification before being presented as operational.
+* Hospital and donor verification workflows require real-world validation before production use.
 
-## 🏗️ Architecture & Screens
+## 🔮 Future Improvements
 
-```
-blood-response-frontend/
-├── app/
-│   ├── _layout.tsx               # Root auth hydration & status bar
-│   ├── (auth)/
-│   │   ├── login.tsx             # Phone/Password login + Quick test account switcher
-│   │   ├── register.tsx          # Donor/Requester registration + CNIC hash privacy note
-│   │   └── otp-verify.tsx        # OTP confirmation screen (stub auto-fill)
-│   ├── (tabs)/
-│   │   ├── home.tsx              # Role-aware dashboard + prominent 1-tap SOS banner
-│   │   ├── requests.tsx          # Public/City emergency request feed + Post Request modal
-│   │   ├── donors-nearby.tsx     # Geolocation nearby donors with List / Map View fallback
-│   │   ├── profile.tsx           # Donor profile, blood group picker, 90-day cooldown card
-│   │   └── alerts.tsx            # Live in-app emergency matching alert feed
-│   ├── request/[id].tsx          # Request details, live units progress bar, donor confirmation
-│   └── admin/                    # Role-gated moderation queue and platform analytics
-├── components/                   # Button, Badge, BloodGroupPicker, CooldownCard, SOSModal, Header
-├── constants/                    # Colors (Deep Teal, Amber, Alert Red), Compatibility, i18n (EN/UR)
-├── services/api.ts               # Typed Axios client with JWT auto-refresh interceptors
-└── store/authStore.ts            # Zustand auth & language store with AsyncStorage persistence
-```
+* Unify database architecture.
+* Improve donor matching and availability updates.
+* Integrate reliable notification services.
+* Add automated backend and frontend tests.
+* Deploy the backend and prepare a shareable Android demo build.
+* Strengthen authentication, privacy, and production monitoring.
 
----
+## 🤝 Acknowledgements
 
-## 💡 Key Design & Technical Highlights
+Developed as a team project during the Alkhidmat Foundation Pakistan — Summer Social Internship Program (SSIP) 2026.
 
-1. **Medical / Nonprofit Aesthetic**:
-   - Palette built on Deep Teal (`#0D7377`) and Warm Amber (`#F59E0B`). Emergency Crimson (`#DC2626`) is used strictly for critical surgeries and SOS alerts.
-2. **Urdu / English Bilingual Support with RTL**:
-   - Instant header language toggle between English and Urdu.
-3. **90-Day Biological Cooldown Enforcement**:
-   - Visual countdown card and badge showing remaining recovery days to safeguard donor health.
-4. **Expo Go Compatibility**:
-   - Includes interactive List and Visual Map fallback ensuring smooth evaluation on low-end devices and Expo Go without native build friction.
+## ⚖️ Disclaimer
+
+This project is an educational prototype intended to explore emergency blood donor coordination. It is not a substitute for hospital services, medical advice, or professionally verified blood donation procedures.
